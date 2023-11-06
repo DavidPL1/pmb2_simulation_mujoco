@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#xacro "$@" | tail -n +7 | head -n -2
+xacro "$@" | tail -n +6

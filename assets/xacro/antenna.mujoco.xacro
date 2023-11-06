@@ -1,0 +1,7 @@
+<mujoco xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="antenna" params="name xyz rpy">
+    <body name="${name}_link" pos="${xyz}" euler="${rpy}" >
+      <geom type="mesh" rgba="0 0 0 1" mesh="antenna"/>
+    </body>
+  </xacro:macro>
+</mujoco>

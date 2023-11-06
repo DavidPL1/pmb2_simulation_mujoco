@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+
+  Copyright (c) 2021 PAL Robotics S.L. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<mujoco xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <compiler angle="radian" meshdir="$(find pmb2_description)/meshes/" autolimits="false"/>
+  <size njmax="500" nconmax="100"/>
+  
+  <asset>
+    <mesh name="sick_tim551" file="sensors/sick_tim551.stl"/>
+    <mesh name="srf05" file="sensors/srf05.stl"/>
+    <mesh name="base" file="base/base.stl" refpos="0 0 0.0985" />
+    <mesh name="base_ring" file="base/base_ring.stl"/>
+    <mesh name="antenna" file="objects/antenna.stl"/>
+    <mesh name="wheel" file="wheels/wheel.stl"/>
+    <mesh name="caster_1" file="wheels/caster_1.stl"/>
+    <mesh name="caster_2" file="wheels/caster_2.stl"/>
+  </asset>
+
+  <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/wheel.mujoco.xacro"/>
+  <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/caster.mujoco.xacro"/>
+
+  <!-- <xacro:include filename="$(find pmb2_description)/mujoco/sensors/imu.mujoco.xacro"/> -->
+
+  <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/antenna.mujoco.xacro"/>
+
+  <!-- Wheel characteristics -->
+  <xacro:property name="wheel_radius"     value="0.0985"/>
+  <xacro:property name="wheel_width"      value="0.020"/>
+  <xacro:property name="wheel_separation" value="0.4044"/>
+  <xacro:property name="wheel_torque"     value="6.0"/>
+  <xacro:property name="wheel_velocity"   value="1.0"/>
+
+  <!-- Caster wheel characteristics -->
+  <xacro:property name="caster_radius"       value="0.025"/>
+  <xacro:property name="caster_width"        value="0.015"/>
+  <xacro:property name="caster_separation_x" value="0.343"/>
+  <xacro:property name="caster_separation_y" value="0.204"/>
+  <xacro:property name="caster_offset_x"     value="-0.002"/>
+  <xacro:property name="caster_offset_y"     value="0.0"/>
+  <xacro:property name="caster_offset_z"     value="-0.0335"/>
+
+  <xacro:macro name="base" params="name">
+    <worldbody>
+        <light name="spotlight" mode="targetbodycom" target="${name}_link" pos="0 -1 2" cutoff="30"/>
+        <body name="${name}_link" pos="0 0 0.11" quat="1 0 0 0" >
+            <freejoint/>
+            <inertial mass="28" pos="0 0 0.0515" fullinertia="0.465408937 0.483193291 0.550939703 0.002160024 -0.001760255 -0.000655952"/>
+
+            <body name="${name}_footprint" pos="0 0 ${wheel_radius}" />
+
+            <geom pos="0 0 0.0985" type="mesh" rgba="1 1 1 1"     mesh="base"/>
+
+            <geom pos="-0.183 0.183 0.173"  quat=" 0.382683 0 0 0.92388" type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05"/>
+            <geom pos="-0.183 -0.183 0.173" quat="-0.382683 0 0 0.92388" type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05"/>
+            <geom pos="-0.259 0 0.173"      quat="0 0 0 1"               type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05"/>
+            <geom pos=" 0.202 0 -0.004"                                  type="mesh" rgba="0.1 0.1 0.1 1" mesh="sick_tim551"/>
+            
+            <geom pos="0 0 0.0315" type="mesh" rgba="1 0.487 0 1" mesh="base_ring"/>
+            <xacro:antenna name="${name}_antenna_left"  xyz="-0.201  0.1062 0.195" rpy="0 0 0" />
+            <xacro:antenna name="${name}_antenna_right" xyz="-0.201 -0.1062 0.195" rpy="0 0 0" />
+
+            <!-- Wheels -->
+            <xacro:wheel side="right" reflect=" 1.0" radius="${wheel_radius}" width="${wheel_width}" torque="${wheel_torque}" velocity="${wheel_velocity}" separation="${wheel_separation}" />
+            <xacro:wheel side="left"  reflect="-1.0" radius="${wheel_radius}" width="${wheel_width}" torque="${wheel_torque}" velocity="${wheel_velocity}" separation="${wheel_separation}" />
+
+            <!-- Casters wheels -->
+            <xacro:caster side="front_right" radius="${caster_radius}" width="${caster_width}" separation_x="${ caster_separation_x}" separation_y="${ caster_separation_y}" offset_x="${caster_offset_x}" offset_y="${caster_offset_y}" offset_z="${caster_offset_z}" />
+            <xacro:caster side="front_left"  radius="${caster_radius}" width="${caster_width}" separation_x="${ caster_separation_x}" separation_y="${-caster_separation_y}" offset_x="${caster_offset_x}" offset_y="${caster_offset_y}" offset_z="${caster_offset_z}" />
+
+            <xacro:caster side="back_right"  radius="${caster_radius}" width="${caster_width}" separation_x="${-caster_separation_x}" separation_y="${ caster_separation_y}" offset_x="${caster_offset_x}" offset_y="${caster_offset_y}" offset_z="${caster_offset_z}" />
+            <xacro:caster side="back_left"   radius="${caster_radius}" width="${caster_width}" separation_x="${-caster_separation_x}" separation_y="${-caster_separation_y}" offset_x="${caster_offset_x}" offset_y="${caster_offset_y}" offset_z="${caster_offset_z}" />
+        </body>
+    </worldbody>
+
+    <contact>
+        <exclude body1="caster_front_right_1_link" body2="${name}_link"/>
+        <exclude body1="caster_front_left_1_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_right_1_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_left_1_link"   body2="${name}_link"/>
+
+        <exclude body1="caster_front_right_2_link" body2="${name}_link"/>
+        <exclude body1="caster_front_left_2_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_right_2_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_left_2_link"   body2="${name}_link"/>
+        
+        <exclude body1="wheel_right_link" body2="${name}_link"/>
+        <exclude body1="wheel_left_link"  body2="${name}_link"/>
+    </contact>
+
+    <tendon>
+      <fixed name="forward">
+        <joint joint="wheel_left_joint" coef="1.5"/>
+        <joint joint="wheel_right_joint" coef="1.5"/>
+      </fixed>
+      <fixed name="turn">
+        <joint joint="wheel_left_joint" coef="-1.5"/>
+        <joint joint="wheel_right_joint" coef="1.5"/>
+      </fixed>
+    </tendon>
+
+  </xacro:macro>
+</mujoco>

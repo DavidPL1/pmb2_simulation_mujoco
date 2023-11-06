@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Robot Customization -->
+  <arg name="rviz"        default="true"  doc="Should rviz be spawned?" />
+
+  <arg name="mujoco_plugin_config" default="$(find pmb2_mujoco)/config/default_mjplugin_config.yaml"             doc="Location of param file containing the mujoco plugin config" />
+  <arg name="use_sim_time" doc="should mujoco publish its simulation time as ros time?"/>
+
+  <!-- Needed for nesting this launchfile in test launchfiles -->
+  <arg name="headless" default="false" />
+  <arg name="unpause"  default="false" />
+  <arg name="no_x"     default="false" />
+  <arg name="verbose"  default="false" />
+
+  <!-- Since robot position and orientation are defined by the xml file, these option currently do not change the robot position, but should match the position and orientation of the model file -->
+  <!-- <arg name="x"           default="0"     doc="How far forward to place the base of the robot in [m]?" />
+  <arg name="y"           default="0"     doc="How far leftwards to place the base of the robot in [m]?" />
+  <arg name="z"           default="0"     doc="How far upwards to place the base of the robot in [m]?" />
+  <arg name="roll"        default="0"     doc="How much to rotate the base of the robot around its X-axis in [rad]?" />
+  <arg name="pitch"       default="0"     doc="How much to rotate the base of the robot around its Y-axis in [rad]?" />
+  <arg name="yaw"         default="0"     doc="How much to rotate the base of the robot around its Z-axis in [rad]?" /> -->
+  <arg name="robot_namespace" default="" />
+  <arg name="laser_model" default="sick-571" />
+  <arg name="rgbd_sensors" default="false" />
+  <arg name="multi" default="" />
+  <arg name="xacro_args" default="" />
+  <arg name="xacro_outpath" default="/tmp/${user}_pmb2.xml" />
+
+  <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+  <rosparam command="load" file="$(find pmb2_description)/config/joint_limits.yaml" />
+  <rosparam ns="pal_robot_info" param="type">pmb2</rosparam>
+
+  <!-- Diff drive controller and multipliers -->
+  <!-- <rosparam command="load" file="$(find pmb2_controller_configuration)/config/mobile_base_controller.yaml" />
+  <rosparam command="load" file="$(find pmb2_controller_configuration)/config/mobile_base_controller_multipliers.yaml" /> -->
+
+  <param name="robot_description"
+         command="xacro $(find pmb2_description)/robots/pmb2.urdf.xacro
+                  laser_model:=$(arg laser_model)
+                  rgbd_sensors:=$(arg rgbd_sensors)
+                  $(arg multi)">
+  </param>
+
+  <param name="mujoco_xml"
+         command="$(find pmb2_mujoco)/scripts/xacro_pipe $(find pmb2_mujoco)/example/scene.xml.xacro
+                  laser_model:=$(arg laser_model)
+                  rgbd_sensors:=$(arg rgbd_sensors)
+                  -o $(arg xacro_outpath)"> <!-- hack writing xml to file instead of using rosparam because of MuJoCo Bug -->
+  </param>
+
+  <!-- <rosparam file="$(arg mujoco_plugin_config)" subst_value="true" /> -->
+
+  <include file="$(find mujoco_ros)/launch/launch_server.launch" pass_all_args="true" >
+    <arg name="console_config_file"  value="$(find pmb2_mujoco)/config/rosconsole.config" />
+    <arg name="modelfile" value="$(arg xacro_outpath)" />
+    <!-- Not working because of MuJoCo Bug, see hack above -->
+    <!-- <arg name="wait_for_xml" value="true" /> -->
+  </include>
+
+  <rosparam command="load" file="$(find pmb2_controller_configuration_gazebo)/config/mobile_base_controller.yaml"/>
+  <rosparam command="load" file="$(find pmb2_controller_configuration_gazebo)/config/mobile_base_controller_multipliers.yaml"/>
+
+  <include file="$(find pmb2_controller_configuration)/launch/default_controllers.launch" >
+    <arg name="robot_namespace" value="$(arg robot_namespace)" />
+  </include>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50" />
+    <param name="tf_static" type="string" value="" />
+    <param name="use_tf_static" type="bool" value="true" />
+  </node>
+  <node name="joint_state_publisher" type="joint_state_publisher" pkg="joint_state_publisher">
+    <!-- <rosparam param="source_list">[franka_state_controller/joint_states, franka_gripper/joint_states] </rosparam> -->
+    <!-- <param name="rate" value="30"/> -->
+  </node>
+
+  <!-- <node pkg="robot_pose" type="robot_pose_node" name="robot_pose_publisher" output="screen"/> -->
+
+  <!-- <include file="$(find pmb2_bringup)/launch/twist_mux.launch" /> -->
+
+  <node  pkg="rviz" type="rviz" output="screen" name="rviz" args="-d $(find pmb2_description)/config/show.rviz" if="$(arg rviz)"/>
+
+</launch>
+
