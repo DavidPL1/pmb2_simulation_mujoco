@@ -54,12 +54,15 @@
 
   <xacro:macro name="base" params="name">
     <worldbody>
+        <body name="test" pos="0 0 0.5">
+          <geom name="wheel_test" type="mesh" rgba="0.1 0.1 0.1 1" mesh="wheel" />
+        </body>
         <light name="spotlight" mode="targetbodycom" target="${name}_link" pos="0 -1 2" cutoff="30"/>
         <body name="${name}_link" pos="0 0 0.11" quat="1 0 0 0" >
             <freejoint/>
             <inertial mass="28" pos="0 0 0.0515" fullinertia="0.465408937 0.483193291 0.550939703 0.002160024 -0.001760255 -0.000655952"/>
 
-            <body name="${name}_footprint" pos="0 0 ${wheel_radius}" />
+            <body name="base_footprint" pos="0 0 ${wheel_radius}" />
 
             <geom pos="0 0 0.0985" type="mesh" rgba="1 1 1 1"     mesh="base"/>
 

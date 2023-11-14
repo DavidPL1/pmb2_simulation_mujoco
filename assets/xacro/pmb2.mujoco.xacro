@@ -18,6 +18,7 @@
 
   <xacro:arg name="laser_model" default="sick-571"/> <!-- false, hokuyo, sick-551, sick-561, sick-571-->
   <xacro:arg name="rgbd_sensors" default="false"/> <!-- false, true-->
+  <xacro:arg name="name" default="pmb2" />
   <xacro:property name="laser_model" value="$(arg laser_model)" />
   <xacro:property name="rgbd_sensors" value="$(arg rgbd_sensors)"/>
   <xacro:if value="${laser_model not in ['false', False, 'sick-551', 'sick-561', 'sick-571', 'hokuyo', 'ydlidar-tg30', 'ydlidar-tg15']}">
@@ -29,7 +30,7 @@
   <xacro:property name="nsp" value="$(arg namespace)" />
 
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/base.mujoco.xacro" />
-  <xacro:base name="pmb2" />
+  <xacro:base name="$(arg name)" />
 
   <!-- The following included files set up definitions of parts of the robot body -->
   <!-- Base -->
