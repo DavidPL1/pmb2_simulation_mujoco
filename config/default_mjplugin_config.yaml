@@ -1,4 +1,5 @@
 MujocoPlugins:
+  - type: mujoco_ros_sensors/MujocoRosSensorsPlugin
   - type: mujoco_ros_control_pal/MujocoRosControlPlugin
     hardware:
       type: mujoco_ros_control_pal/DefaultRobotHWSim
