@@ -5,9 +5,9 @@
     <body name="suspension_${side}_link" pos="0 0 0">
         <inertial pos="0 0 -0.02" mass="0.1" diaginertia="1 1 1"/>
         <joint name="suspension_${side}_joint" pos="0 0 0" axis="0 0 1" type="slide" frictionloss="0.001" stiffness="1000.0" springref="-0.12" damping="12.5"/>
-        <body name="wheel_${side}_link" pos="0 ${-0.2022 * reflect} 0" euler="${-90 * reflect /180*pi} 0 0">
+        <body name="wheel_${side}_link" pos="0 ${-0.2022 * reflect} 0" euler="${-90 /180*pi} 0 0">
             <inertial pos="0 0 ${-0.0207 * reflect}" mass="1.82362" fullinertia="0.00499743171 0.00499741733 0.00839239692 ${ 0.00000004464 * reflect} -0.00000002245 ${-0.00000000164 * reflect}"/>
-            <joint name="wheel_${side}_joint" pos="0 0 0" axis="0 0 ${reflect}"/>
+            <joint name="wheel_${side}_joint" pos="0 0 0" axis="0 0 1"/>
             <geom name="wheel_${side}" type="mesh" rgba="0.1 0.1 0.1 1" mesh="wheel" />
         </body>
     </body>
