@@ -2,6 +2,11 @@
 <mujoco xmlns:xacro="http://ros.org/wiki/xacro" model="pmb2 Scene">
 
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/pmb2.mujoco.xacro" />
+  <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/assets.mujoco.xacro" />
+  <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/contacts.mujoco.xacro" />
+  <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/sensors.mujoco.xacro" />
+
+  <xacro:pmb2_assets />
 
   <statistic center="0 0 0.3" extent="1.2"/>
 
@@ -26,6 +31,15 @@
 
     <geom name="low_friction0" type="box" pos="0 0 0.1" size="400 400 .01" material="grid" condim="3"/>
   </worldbody>
+
+  <worldbody>
+    <xacro:pmb2_robot name="pmb2" pos="0 0 0.21" quat="1 0 0 0" >
+      <body />
+    </xacro:pmb2_robot>
+  </worldbody>
+
+  <xacro:pmb2_contacts name="pmb2" />
+  <xacro:pmb2_sensors name="pmb2" />
 
   <contact>
     <pair geom1="wheel_left" geom2="low_friction0" friction="0.1 0.1 0.005 0.0001 0.0001"/>

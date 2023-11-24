@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<mujoco xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="pmb2_assets">
+      <asset>
+          <mesh name="sick_tim551" file="$(find pmb2_description)/meshes/sensors/sick_tim551.stl"/>
+          <mesh name="srf05"       file="$(find pmb2_description)/meshes/sensors/srf05.stl"/>
+          <mesh name="base"        file="$(find pmb2_description)/meshes/base/base.stl" refpos="0 0 0.0985" />
+          <mesh name="base_ring"   file="$(find pmb2_description)/meshes/base/base_ring.stl"/>
+          <mesh name="antenna"     file="$(find pmb2_description)/meshes/objects/antenna.stl"/>
+          <mesh name="wheel"       file="$(find pmb2_description)/meshes/wheels/wheel.stl"/>
+          <mesh name="caster_1"    file="$(find pmb2_description)/meshes/wheels/caster_1.stl"/>
+          <mesh name="caster_2"    file="$(find pmb2_description)/meshes/wheels/caster_2.stl"/>
+      </asset>
+  </xacro:macro>
+</mujoco>

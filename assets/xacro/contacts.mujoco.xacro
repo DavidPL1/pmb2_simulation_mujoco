@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<mujoco xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="pmb2_contacts" params="name">
+    <contact>
+        <exclude body1="caster_front_right_1_link" body2="${name}_link"/>
+        <exclude body1="caster_front_left_1_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_right_1_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_left_1_link"   body2="${name}_link"/>
+
+        <exclude body1="caster_front_right_2_link" body2="${name}_link"/>
+        <exclude body1="caster_front_left_2_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_right_2_link"  body2="${name}_link"/>
+        <exclude body1="caster_back_left_2_link"   body2="${name}_link"/>
+        
+        <exclude body1="wheel_right_link" body2="${name}_link"/>
+        <exclude body1="wheel_left_link"  body2="${name}_link"/>
+    </contact>
+  </xacro:macro>
+</mujoco>

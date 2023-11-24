@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<mujoco xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="pmb2_sensors" params="name">
+    <sensor>
+      <accelerometer name="${name}_linear_acc_sensor" site="${name}_imu_site"/>
+      <gyro name="${name}_angular_vel_sensor" site="${name}_imu_site"/>
+    </sensor>
+  </xacro:macro>
+</mujoco>
