@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <mujoco xmlns:xacro="http://ros.org/wiki/xacro" model="pmb2 Scene">
+  <compiler angle="radian" autolimits="false"/>
+  <size njmax="500" nconmax="100"/>
 
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/pmb2.mujoco.xacro" />
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/assets.mujoco.xacro" />

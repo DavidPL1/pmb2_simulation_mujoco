@@ -21,7 +21,5 @@
   <exec_depend>pmb2_description</exec_depend>
   <exec_depend>pmb2_controller_configuration</exec_depend>
   <exec_depend>pmb2_controller_configuration_gazebo</exec_depend>
-  <exec_depend></exec_depend>
-  <exec_depend></exec_depend>
 
 </package>

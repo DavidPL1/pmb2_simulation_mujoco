@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <mujoco xmlns:xacro="http://ros.org/wiki/xacro">
-  <compiler angle="radian" meshdir="$(find pmb2_description)/meshes/" autolimits="false"/>
-  <size njmax="500" nconmax="100"/>
   
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/wheel.mujoco.xacro"/>
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/caster.mujoco.xacro"/>
