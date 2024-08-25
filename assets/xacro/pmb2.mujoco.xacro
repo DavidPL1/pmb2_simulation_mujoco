@@ -29,8 +29,8 @@
 
   <xacro:include filename="$(find pmb2_mujoco)/assets/xacro/base.mujoco.xacro" />
 
-  <xacro:macro name="pmb2_robot" params="name pos quat *attached_body">
-    <xacro:base name="${name}" pos="${pos}" quat="${quat}" >
+  <xacro:macro name="pmb2_robot" params="name pos rot *attached_body">
+    <xacro:base name="${name}" pos="${pos}" rot="${rot}" >
       <xacro:insert_block name="attached_body" />
     </xacro:base>
   </xacro:macro>

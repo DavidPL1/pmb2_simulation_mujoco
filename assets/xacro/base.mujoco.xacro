@@ -24,9 +24,9 @@
   <xacro:property name="caster_offset_y"     value="0.0"/>
   <xacro:property name="caster_offset_z"     value="-0.0335"/>
 
-  <xacro:macro name="base" params="name pos quat *attached_body">
+  <xacro:macro name="base" params="name pos rot *attached_body">
       <light name="spotlight" mode="targetbodycom" target="${name}_link" pos="0 -1 2" cutoff="30"/>
-      <body name="${name}_link" pos="${pos}" quat="${quat}" >
+      <body name="${name}_link" pos="${pos}" euler="${rot}" >
           <freejoint/>
           <inertial mass="28" pos="0 0 0.0515" fullinertia="0.465408937 0.483193291 0.550939703 0.002160024 -0.001760255 -0.000655952"/>
 
