@@ -35,7 +35,7 @@
   </worldbody>
 
   <worldbody>
-    <xacro:pmb2_robot name="pmb2" pos="0 0 0.21" quat="1 0 0 0" >
+    <xacro:pmb2_robot name="pmb2" pos="0 0 0.21" rot="0 0 0" >
       <body />
     </xacro:pmb2_robot>
   </worldbody>

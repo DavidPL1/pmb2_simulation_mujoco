@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<mujoco  xmlns:xacro="http://ros.org/wiki/xacro" model="fail" >
+
+<!-- Package A macro def -->
+  <xacro:macro name="mobile_base">
+    <body name="base_body">
+      <body name="attach_option_1">
+
+      </body>
+      <body name="attach_option_2">
+      </body>
+    </body>
+  </xacro:macro>
+
+<!-- Package B macro def -->
+  <xacro:macro name="robot_torso" >
+    <body name="torso_base_link">
+      ...
+    </body>
+  </xacro:macro>
+
+ <xacro:mobile_base >
+  <xacro:robot_torso />
+ </xacro>
+
+  <body name="base_body">
+    <body name="attach_option_1">
+    </body>
+    <body name="attach_option_2">
+    </body>
+  </body>
+  <body name="torso_base_link">
+    ...
+  </body>
+
+
+<!-- impossible to get nested macros? -->
+  <body name="base_body">
+    <body name="attach_option_1">
+      <body name="torso_base_link">
+        ...
+      </body>
+    </body>
+    <body name="attach_option_2">
+    </body>
+  </body>
+
+<!-- impossible to get nested macros? -->
+  <body name="base_body">
+    <body name="attach_option_1">
+    </body>
+    <body name="attach_option_2">
+      <body name="torso_base_link">
+        ...
+      </body>
+    </body>
+  </body>
+
+</mujoco>
