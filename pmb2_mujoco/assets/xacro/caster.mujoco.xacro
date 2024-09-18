@@ -4,12 +4,12 @@
   <xacro:macro name="caster" params="side radius width separation_x separation_y offset_x offset_y offset_z">
     <body name="caster_${side}_1_link" pos="${offset_x + separation_x / 2} ${offset_y - separation_y / 2} ${offset_z}">
         <inertial pos="-0.00634599 5.347e-05 -0.0203752" mass="0.0514476" fullinertia="0.00001513 0.00001309 0.00001198 -0.00000003 0.00000267 -0.00000005"/>
-        <joint name="caster_${side}_1_joint" pos="0 0 0" axis="0 0 1" damping="0.005"/>
+        <joint name="caster_${side}_1_joint" pos="0 0 0" axis="0 0 1" damping="0.005" frictionloss="50.0"/>
         <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="caster_1"/>
         <body name="caster_${side}_2_link" pos="-0.016 0 -0.04" euler="${-90.0/180*pi} 0 0">
-            <inertial pos="0 0 0" euler="0 0 0" mass="0.0885578" diaginertia="1.075e-05 1.541e-05 1.075e-05"/>
+            <inertial pos="0 0 0" euler="0 0 0" mass="0.0885578" diaginertia="1.541e-05 1.541e-05 1.541e-05"/> 
             <joint name="caster_${side}_2_joint" pos="0 0 0" axis="0 0 1"/>
-            <geom type="mesh" rgba="0.1 0.1 0.1 1" mesh="caster_2"/>
+            <geom type="mesh" rgba="0.1 0.1 0.1 1" mesh="caster_2" friction="1 0.005 0.0001"/>
         </body>
     </body>
   </xacro:macro>
