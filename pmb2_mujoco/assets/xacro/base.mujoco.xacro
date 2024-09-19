@@ -36,12 +36,16 @@
 
           <site name="${name}_imu_site"/>
 
-          <geom pos="0 0 0.0985" type="mesh" rgba="1 1 1 1"     mesh="base"/>
+          <geom pos="0 0 0.0985" type="mesh" rgba="1 1 1 1"     mesh="base" group="1"/>
 
-          <geom pos="-0.183 0.183 0.173"  quat=" 0.382683 0 0 0.92388" type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05"/>
-          <geom pos="-0.183 -0.183 0.173" quat="-0.382683 0 0 0.92388" type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05"/>
-          <geom pos="-0.259 0 0.173"      quat="0 0 0 1"               type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05"/>
-          <geom pos=" 0.202 0 -0.004"                                  type="mesh" rgba="0.1 0.1 0.1 1" mesh="sick_tim551"/>
+          <geom pos="-0.183 0.183 0.173"  quat=" 0.382683 0 0 0.92388" type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05" group="1"/>
+          <geom pos="-0.183 -0.183 0.173" quat="-0.382683 0 0 0.92388" type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05" group="1"/>
+          <geom pos="-0.259 0 0.173"      quat="0 0 0 1"               type="mesh" rgba="0.1 0.1 0.1 1" mesh="srf05" group="1"/>
+         
+          <body name="base_laser_link" pos="0.202 0 -0.004" >
+            <geom type="mesh" rgba="0.1 0.1 0.1 1" mesh="sick_tim551" group="1"/>
+            <site name="${name}_laser_site" />
+          </body>
           
           <geom pos="0 0 0.0315" type="mesh" rgba="1 0.487 0 1" mesh="base_ring"/>
           <xacro:antenna name="${name}_antenna_left"  xyz="-0.201  0.1062 0.195" rpy="0 0 0" />
